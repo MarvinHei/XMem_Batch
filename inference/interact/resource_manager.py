@@ -76,6 +76,8 @@ class ResourceManager:
         os.makedirs(self.image_dir, exist_ok=True)
         os.makedirs(self.mask_dir, exist_ok=True)
 
+        self.done = False
+
         # convert read functions to be buffered
         self.get_image = LRU(self._get_image_unbuffered, maxsize=config['buffer_size'])
         self.get_mask = LRU(self._get_mask_unbuffered, maxsize=config['buffer_size'])
@@ -168,13 +170,17 @@ class ResourceManager:
         image = np.array(image)
         return image
 
-    def _get_mask_unbuffered(self, ti):
+    def _get_mask_unbuffered(self, ti, size):
         # returns H*W uint8 array
         assert 0 <= ti < self.length
-
-        mask_path = path.join(self.mask_dir, self.names[ti]+'.png')
+        mask_path = path.join(self.mask_dir, self.names[ti-1]+'.png')
         if path.exists(mask_path):
             mask = Image.open(mask_path)
+            is_mask = mask.mode in ['L', 'P']
+            if size is not None:
+            # PIL uses (width, height)
+                mask = mask.resize((size[1], size[0]), 
+                        resample=Image.Resampling.NEAREST if is_mask else Image.Resampling.BICUBIC)
             mask = np.array(mask)
             return mask
         else:

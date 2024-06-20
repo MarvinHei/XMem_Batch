@@ -415,7 +415,7 @@ class App(QWidget):
         self.current_image_torch = None
 
         if not no_mask:
-            loaded_mask = self.res_man.get_mask(self.cursur)
+            loaded_mask = self.res_man.get_mask(self.cursur, (self.height, self.width))
             if loaded_mask is None:
                 self.current_mask.fill(0)
             else:
