@@ -68,7 +68,7 @@ def restructure_folder(mask_type):
     if not path.exists(mask_dst):
         os.makedirs(mask_dst)
     video_name = config["images"].split('/')[-1]
-    mask_path = os.path.join('../../EPIC_DATA/segmentations', video_name, mask_type)
+    mask_path = os.path.join('../EPIC_DATA/segmentations', video_name, mask_type)
     if len(os.listdir(mask_dst)) == 0:
         for file in os.listdir(mask_path):
             shutil.copy(os.path.join(mask_path, file), os.path.join(mask_dst, file))
@@ -78,7 +78,7 @@ def restructure_folder(mask_type):
 
 def copy_files_from_ws_to_data(video_name, mask_type):
     mask_path = os.path.join(config["workspace"], "masks")
-    dst = os.path.join('../../EPIC_DATA/xmem_masks', video_name, mask_type)
+    dst = os.path.join('../EPIC_DATA/xmem_masks', video_name, mask_type)
     if not os.path.exists(dst):
         os.makedirs(dst)
     for file in os.listdir(mask_path):
