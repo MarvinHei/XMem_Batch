@@ -185,8 +185,8 @@ if __name__ == '__main__':
             config["workspace"] = workspace_path
             resource_manager = ResourceManager(config)
             ex = Automator(network, resource_manager, config, device)
-            #ex.automate()
-            ex.automate_whole_video()
+            ex.automate()
+            #ex.automate_whole_video()
         copy_files_from_ws_to_data(video_name, mask_type)
         mask_type = "hand/both"
         config["num_objects"] = 2
@@ -195,6 +195,6 @@ if __name__ == '__main__':
         config["workspace"] = workspace_path
         resource_manager = ResourceManager(config)
         ex = Automator(network, resource_manager, config, device)
-        #ex.automate()
-        ex.automate_whole_video()
+        ex.automate()
+        #ex.automate_whole_video()
         copy_files_from_ws_to_data(video_name, mask_type)
