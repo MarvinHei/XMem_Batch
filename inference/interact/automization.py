@@ -5,6 +5,7 @@ Based on https://github.com/hkchengrex/MiVOS/tree/MiVOS-STCN
 import os
 
 import numpy as np
+import shutil
 import torch
 try:
     from torch import mps
@@ -48,10 +49,15 @@ class Automator():
         self.mask_list = files
         self.cursur = files[0]
 
+        self.alt_workspace = os.path.join("segmentations", config["workspace"][12:])
+        print(self.alt_workspace)
+
         self.propagating = False
+        self.out = None
 
     def automate(self):
         for ti in self.mask_list:
+            self.out = os.path.join(self.alt_workspace, str(ti))
             self.cursur = ti
             self.load_current_image_mask()
             self.save_current_mask()
@@ -99,6 +105,8 @@ class Automator():
     def save_current_mask(self):
         # save mask to hard disk
         self.res_man.save_mask(self.cursur, self.current_mask)
+        if self.out != None:
+            self.res_man.save_mask_custom(self.cursur, self.current_mask, self.out)
 
     def on_forward_propagation(self, len):
         if self.propagating:

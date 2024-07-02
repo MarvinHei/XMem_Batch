@@ -149,6 +149,18 @@ class ResourceManager:
         mask.putpalette(self.palette)
         mask.save(path.join(self.mask_dir, self.names[ti]+'.png'))
         self.invalidate(ti)
+    
+    def save_mask_custom(self, ti, mask, out):
+        
+        assert 0 <= ti < self.length
+        assert isinstance(mask, np.ndarray)
+        
+        if not os.path.exists(out):
+            os.makedirs(out)
+        
+        mask = Image.fromarray(mask)
+        mask.putpalette(self.palette)
+        mask.save(path.join(out, self.names[ti] + '.png'))
 
     def save_visualization(self, ti, image):
         # image should be uint8 3*H*W
