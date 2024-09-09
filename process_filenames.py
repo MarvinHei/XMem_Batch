@@ -21,6 +21,10 @@ def rename_files(folder_path):
                 break
 
 # Example usage:
-folder_path = "/home/marvin/EPIC_DATA/P01/P01_01"
+#folder_path = "/home/marvin/EPIC_DATA/P01/P01_01"
 #folder_path = "/home/marvin/Pipeline/object_masks"
-rename_files(folder_path)
+folder_path = "segmentations/P01_05/hand/both"
+folders = os.listdir(folder_path)
+for folder in folders:
+	new_path = os.path.join(folder_path, folder)
+	rename_files(new_path)
